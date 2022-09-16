@@ -1,9 +1,9 @@
-import type { NextPage } from "next";
+import type { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
 import { trpc } from "../utils/trpc";
 
 const Home: NextPage = () => {
-	const hello = trpc.useQuery(["example.hello", { text: "from tRPC" }]);
+	const products = trpc.useQuery(["products.get"]);
 
 	return (
 		<>
@@ -14,7 +14,15 @@ const Home: NextPage = () => {
 			</Head>
 
 			<main>
-				<h1>Hello World</h1>
+				<header className="w-screen flex justify-center items-center h-16 font-bold text-3xl">
+					All Products
+				</header>
+
+				<section>
+					{products.data?.map((p) => (
+						<div key={p.id}></div>
+					))}
+				</section>
 			</main>
 		</>
 	);
